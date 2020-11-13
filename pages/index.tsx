@@ -7,9 +7,8 @@ import {
   Text,
 } from "@chakra-ui/react";
 import DateFnsAdapter from "@date-io/date-fns";
-import addMonths from "date-fns/addMonths";
-import isBefore from "date-fns/isBefore";
-import locale from "date-fns/locale/en-US";
+import isSameMonth from "date-fns/isSameMonth";
+import locale from "date-fns/locale/en-GB";
 import useCalendar from "lib";
 import { NextPage } from "next";
 import React from "react";
@@ -22,18 +21,18 @@ const Page: NextPage = () => {
     days,
     navigatePrev,
     navigateNext,
-  } = useCalendar({
+  } = useCalendar<Date>({
     dateUtils: new DateFnsAdapter({ locale }),
   });
 
   return (
-    <Container maxW="lg" py={8}>
+    <Container maxW="lg" py={4}>
       <Flex alignItems="center" justifyContent="center" py={4}>
         <IconButton
           aria-label="Prev"
           icon={<ChevronLeftIcon boxSize={8} />}
           onClick={navigatePrev}
-          isDisabled={isBefore(addMonths(currentDate, -1), new Date())}
+          isDisabled={isSameMonth(currentDate, new Date())}
         />
         <Text fontWeight="bold" mx={4} width="200px" textAlign="center">
           {month.monthAndYear}
