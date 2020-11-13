@@ -10,10 +10,9 @@ import DateFnsAdapter from "@date-io/date-fns";
 import isSameMonth from "date-fns/isSameMonth";
 import locale from "date-fns/locale/en-US";
 import useCalendar from "lib";
-import { NextPage } from "next";
-import React from "react";
+import React, { FunctionComponent } from "react";
 
-const Page: NextPage = () => {
+const Calendar: FunctionComponent = () => {
   const {
     date,
     month,
@@ -81,4 +80,4 @@ const Page: NextPage = () => {
   );
 };
 
-export default Page;
+export default Calendar;
