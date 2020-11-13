@@ -22,8 +22,20 @@ const useCalendar = <TDate = unknown>({
   defaultDate,
 }: CalendarOptions<TDate>): CalendarState<TDate> => {
   const [date, setDate] = useState(defaultDate || d.date());
-  const firstVisible = d.startOfWeek(d.startOfMonth(date));
-  const lastVisible = d.endOfWeek(d.endOfMonth(date));
+  const first = d.startOfWeek(d.startOfMonth(date));
+  const last = d.endOfWeek(d.endOfMonth(date));
+  const days: Day<TDate>[] = [];
+
+  let curr = first;
+  while (d.isBefore(curr, last)) {
+    days.push({
+      date: curr,
+      dayOfMonth: d.format(curr, "dayOfMonth").padStart(2, "0"),
+      isOutsideMonth: !d.isSameMonth(date, curr),
+      isToday: d.isSameDay(curr, d.date()),
+    });
+    curr = d.addDays(curr, 1);
+  }
 
   return {
     date,
@@ -35,23 +47,7 @@ const useCalendar = <TDate = unknown>({
       weekday: d.format(date, "weekday"),
       weekdayShort: d.format(date, "weekdayShort"),
     })),
-    days: (function () {
-      const days: Day<TDate>[] = [];
-      let curr = firstVisible;
-
-      while (d.isBefore(curr, lastVisible)) {
-        days.push({
-          date: curr,
-          dayOfMonth: d.format(curr, "dayOfMonth").padStart(2, "0"),
-          isOutsideMonth: !d.isSameMonth(date, curr),
-          isToday: d.isSameDay(curr, d.date()),
-        });
-
-        curr = d.addDays(curr, 1);
-      }
-
-      return days;
-    })(),
+    days,
     navigatePrev: () => setDate(d.addMonths(date, -1)),
     navigateNext: () => setDate(d.addMonths(date, 1)),
   };
