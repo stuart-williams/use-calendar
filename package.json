@@ -11,6 +11,7 @@
     "@date-io/core": "^2.10.6"
   },
   "devDependencies": {
+    "@chakra-ui/icons": "^1.0.0",
     "@chakra-ui/react": "^1.0.0",
     "@date-io/date-fns": "^2.10.6",
     "@emotion/react": "^11.0.0",
