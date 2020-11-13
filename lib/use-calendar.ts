@@ -9,10 +9,10 @@ interface CalendarOptions<TDate> {
 }
 
 interface CalendarState<TDate> {
-  readonly currentDate: TDate;
+  readonly date: TDate;
   readonly month: Month;
   readonly weekdays: Weekday[];
-  readonly days: Day[];
+  readonly days: Day<TDate>[];
   readonly navigatePrev: () => void;
   readonly navigateNext: () => void;
 }
@@ -21,28 +21,30 @@ const useCalendar = <TDate = unknown>({
   dateUtils: d,
   defaultDate,
 }: CalendarOptions<TDate>): CalendarState<TDate> => {
-  const [currentDate, setCurrentDate] = useState(defaultDate || d.date());
-  const firstDayOfMonth = d.startOfWeek(d.startOfMonth(currentDate));
-  const lastDayOfMonth = d.endOfWeek(d.endOfMonth(currentDate));
+  const [date, setDate] = useState(defaultDate || d.date());
+  const firstVisible = d.startOfWeek(d.startOfMonth(date));
+  const lastVisible = d.endOfWeek(d.endOfMonth(date));
 
   return {
-    currentDate,
+    date,
     month: {
-      month: d.format(currentDate, "month"),
-      monthAndYear: d.format(currentDate, "monthAndYear"),
+      month: d.format(date, "month"),
+      monthAndYear: d.format(date, "monthAndYear"),
     },
-    weekdays: d.getWeekArray(currentDate)[0].map((date) => ({
+    weekdays: d.getWeekArray(date)[0].map((date) => ({
       weekday: d.format(date, "weekday"),
       weekdayShort: d.format(date, "weekdayShort"),
     })),
     days: (function () {
-      const days = [];
-      let curr = firstDayOfMonth;
+      const days: Day<TDate>[] = [];
+      let curr = firstVisible;
 
-      while (d.isBefore(curr, lastDayOfMonth)) {
+      while (d.isBefore(curr, lastVisible)) {
         days.push({
-          isOutsideMonth: !d.isSameMonth(currentDate, curr),
+          date: curr,
           dayOfMonth: d.format(curr, "dayOfMonth").padStart(2, "0"),
+          isOutsideMonth: !d.isSameMonth(date, curr),
+          isToday: d.isSameDay(curr, d.date()),
         });
 
         curr = d.addDays(curr, 1);
@@ -50,8 +52,8 @@ const useCalendar = <TDate = unknown>({
 
       return days;
     })(),
-    navigatePrev: () => setCurrentDate(d.addMonths(currentDate, -1)),
-    navigateNext: () => setCurrentDate(d.addMonths(currentDate, 1)),
+    navigatePrev: () => setDate(d.addMonths(date, -1)),
+    navigateNext: () => setDate(d.addMonths(date, 1)),
   };
 };
 

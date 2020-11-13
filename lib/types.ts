@@ -8,7 +8,9 @@ export interface Weekday {
   weekdayShort: string;
 }
 
-export interface Day {
-  isOutsideMonth: boolean;
+export interface Day<TDate> {
+  date: TDate;
   dayOfMonth: string;
+  isOutsideMonth: boolean;
+  isToday: boolean;
 }

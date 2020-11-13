@@ -8,14 +8,14 @@ import {
 } from "@chakra-ui/react";
 import DateFnsAdapter from "@date-io/date-fns";
 import isSameMonth from "date-fns/isSameMonth";
-import locale from "date-fns/locale/en-GB";
+import locale from "date-fns/locale/en-US";
 import useCalendar from "lib";
 import { NextPage } from "next";
 import React from "react";
 
 const Page: NextPage = () => {
   const {
-    currentDate,
+    date,
     month,
     weekdays,
     days,
@@ -32,7 +32,7 @@ const Page: NextPage = () => {
           aria-label="Prev"
           icon={<ChevronLeftIcon boxSize={8} />}
           onClick={navigatePrev}
-          isDisabled={isSameMonth(currentDate, new Date())}
+          isDisabled={isSameMonth(date, new Date())}
         />
         <Text fontWeight="bold" mx={4} width="200px" textAlign="center">
           {month.monthAndYear}
@@ -56,7 +56,7 @@ const Page: NextPage = () => {
             </Text>
           </Flex>
         ))}
-        {days.map(({ isOutsideMonth, dayOfMonth }, i) => (
+        {days.map(({ dayOfMonth, isOutsideMonth, isToday }, i) => (
           <Flex
             key={i}
             position="relative"
@@ -65,7 +65,13 @@ const Page: NextPage = () => {
             borderTopWidth="1px"
             bg={isOutsideMonth ? "gray.100" : "white"}
           >
-            <Text position="absolute" fontSize="sm" top={2} right={2}>
+            <Text
+              position="absolute"
+              fontSize="sm"
+              fontWeight={isToday ? "bold" : "normal"}
+              top={2}
+              right={2}
+            >
               {dayOfMonth}
             </Text>
           </Flex>
