@@ -1,5 +1,5 @@
 {
-  "name": "use-calendar",
+  "name": "use-cal",
   "version": "0.0.1",
   "description": "Simple calendar logic in a React hook",
   "main": "dist/use-calendar.js",
