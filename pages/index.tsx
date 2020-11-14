@@ -9,7 +9,7 @@ import {
 import DateFnsAdapter from "@date-io/date-fns";
 import isSameMonth from "date-fns/isSameMonth";
 import locale from "date-fns/locale/en-US";
-import useCalendar from "lib";
+import useCalendar from "lib/use-calendar";
 import React, { FunctionComponent } from "react";
 
 const Calendar: FunctionComponent = () => {
