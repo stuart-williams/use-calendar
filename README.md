@@ -26,7 +26,7 @@ npm i -s @date-io/dayjs dayjs
 
 ```tsx
 import DateFnsAdapter from "@date-io/date-fns";
-import locale from "date-fns/locale/en-US";
+import locale from "date-fns/locale/en-GB";
 import addMonths from "date-fns/addMonths";
 
 const { date, month, weekdays, days, navigatePrev, navigateNext } = useCalendar<
