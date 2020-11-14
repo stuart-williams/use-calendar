@@ -1,6 +1,6 @@
 {
   "name": "use-calendar",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "description": "Simple calendar logic in a React hook",
   "main": "dist/use-calendar.js",
   "types": "dist/use-calendar.d.ts",
