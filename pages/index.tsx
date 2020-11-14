@@ -10,39 +10,41 @@ import DateFnsAdapter from "@date-io/date-fns";
 import addMonths from "date-fns/addMonths";
 import format from "date-fns/format";
 import isValid from "date-fns/isValid";
-import locale from "date-fns/locale/en-GB";
+import enGB from "date-fns/locale/en-GB";
+import enUS from "date-fns/locale/en-US";
+import es from "date-fns/locale/es";
 import useCalendar from "lib/use-calendar";
 import { GetServerSideProps, NextPage } from "next";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import React from "react";
 
+const locales = {
+  "en-GB": enGB,
+  "en-US": enUS,
+  es,
+};
+
 interface Props {
-  defaultDate: string;
+  d: string;
 }
 
-const Calendar: NextPage<Props> = ({ defaultDate }) => {
-  const {
-    date,
-    month,
-    weekdays,
-    days,
-    navigatePrev,
-    navigateNext,
-  } = useCalendar<Date>({
-    dateUtils: new DateFnsAdapter({ locale }),
-    defaultDate: new Date(defaultDate),
-  });
+const Calendar: NextPage<Props> = ({ d }) => {
+  const router = useRouter();
+  const defaultDate = new Date(d);
+  const locale = locales[router.locale];
+  const dateUtils = new DateFnsAdapter({ locale });
+  const calendar = useCalendar({ dateUtils, defaultDate });
 
   const handlePrevClick = () => {
-    const d = format(addMonths(date, -1), "yyyy-MM");
-    Router.replace(`?d=${d}`, undefined, { shallow: true });
-    navigatePrev();
+    const d = format(addMonths(calendar.date, -1), "yyyy-MM");
+    router.replace(`?d=${d}`, undefined, { shallow: true });
+    calendar.navigatePrev();
   };
 
   const handleNextClick = () => {
-    const d = format(addMonths(date, 1), "yyyy-MM");
-    Router.replace(`?d=${d}`, undefined, { shallow: true });
-    navigateNext();
+    const d = format(addMonths(calendar.date, 1), "yyyy-MM");
+    router.replace(`?d=${d}`, undefined, { shallow: true });
+    calendar.navigateNext();
   };
 
   return (
@@ -60,7 +62,7 @@ const Calendar: NextPage<Props> = ({ defaultDate }) => {
           textAlign="center"
           textTransform="uppercase"
         >
-          {month.monthAndYear}
+          {calendar.month.monthAndYear}
         </Text>
         <IconButton
           aria-label="Next"
@@ -74,14 +76,14 @@ const Calendar: NextPage<Props> = ({ defaultDate }) => {
         borderBottomWidth="1px"
         borderRightWidth="1px"
       >
-        {weekdays.map(({ weekdayShort }, i) => (
+        {calendar.weekdays.map(({ weekdayShort }, i) => (
           <Flex key={i} justifyContent="center" p={1} borderLeftWidth="1px">
             <Text fontSize="sm" fontWeight="bold" textTransform="uppercase">
               {weekdayShort}
             </Text>
           </Flex>
         ))}
-        {days.map(({ dayOfMonth, isOutsideMonth, isToday }, i) => (
+        {calendar.days.map(({ dayOfMonth, isOutsideMonth, isToday }, i) => (
           <Flex
             key={i}
             position="relative"
@@ -111,7 +113,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return {
     props: {
-      defaultDate: format(isValid(date) ? date : new Date(), "yyyy-MM"),
+      d: format(isValid(date) ? date : new Date(), "yyyy-MM"),
     },
   };
 };
