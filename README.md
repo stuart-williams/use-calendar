@@ -1,5 +1,7 @@
 # `useCalendar`
 
+[![Bundlephobia](https://badgen.net/bundlephobia/minzip/use-cal)](https://bundlephobia.com/result?p=use-cal)
+
 Simple calendar logic in a React hook
 
 ## Installation
