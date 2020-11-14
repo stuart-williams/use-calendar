@@ -2,17 +2,25 @@
   "name": "use-calendar",
   "version": "0.0.0",
   "private": true,
+  "main": "dist/use-calendar.js",
+  "files": [
+    "dist"
+  ],
+  "author": "Stuart Williams",
+  "license": "MIT",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "prebuild:lib": "rm -rf dist",
+    "build:lib": "tsc lib/use-calendar.ts -d --outDir dist"
   },
   "dependencies": {
     "@date-io/core": "^2.10.6"
   },
   "peerDependencies": {
-    "react": "17.0.1",
-    "react-dom": "17.0.1"
+    "react": ">= 16.3",
+    "react-dom": ">= 16.3"
   },
   "devDependencies": {
     "@chakra-ui/icons": "^1.0.0",

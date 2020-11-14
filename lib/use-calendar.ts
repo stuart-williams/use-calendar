@@ -1,14 +1,24 @@
 import { IUtils } from "@date-io/core/IUtils";
 import { useState } from "react";
 
-import { Day, Month, Weekday } from "./types";
-
-interface CalendarOptions<TDate> {
-  dateUtils: IUtils<TDate>;
-  defaultDate?: TDate;
+export interface Month {
+  month: string;
+  monthAndYear: string;
 }
 
-interface CalendarState<TDate> {
+export interface Weekday {
+  weekday: string;
+  weekdayShort: string;
+}
+
+export interface Day<TDate> {
+  date: TDate;
+  dayOfMonth: string;
+  isOutsideMonth: boolean;
+  isToday: boolean;
+}
+
+export interface Calendar<TDate> {
   readonly date: TDate;
   readonly month: Month;
   readonly weekdays: Weekday[];
@@ -17,10 +27,15 @@ interface CalendarState<TDate> {
   readonly navigateNext: () => void;
 }
 
+export interface CalendarOptions<TDate> {
+  dateUtils: IUtils<TDate>;
+  defaultDate?: TDate;
+}
+
 const useCalendar = <TDate = unknown>({
   dateUtils: d,
   defaultDate,
-}: CalendarOptions<TDate>): CalendarState<TDate> => {
+}: CalendarOptions<TDate>): Calendar<TDate> => {
   const [date, setDate] = useState(defaultDate || d.date());
   const first = d.startOfWeek(d.startOfMonth(date));
   const last = d.endOfWeek(d.endOfMonth(date));
