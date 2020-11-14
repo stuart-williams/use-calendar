@@ -22,7 +22,8 @@
     "build": "next build",
     "start": "next start",
     "prebuild:lib": "rm -rf dist",
-    "build:lib": "tsc lib/use-calendar.ts -d --outDir dist"
+    "build:lib": "tsc lib/use-calendar.ts -d --outDir dist",
+    "postversion": "git push && git push --tags"
   },
   "dependencies": {
     "@date-io/core": "^2.10.6"

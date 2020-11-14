@@ -5,12 +5,12 @@ Simple calendar logic in a React hook
 ## Installation
 
 ```bash
-npm i use-calendar
+npm i use-cal
 // or
-yarn add use-calendar
+yarn add use-cal
 ```
 
-`use-calendar` was designed to work with the date management library of your choice.
+`useCalendar` was designed to work with the date management library of your choice.
 
 ```bash
 npm i @date-io/date-fns date-fns
