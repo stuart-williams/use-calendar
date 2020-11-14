@@ -39,7 +39,7 @@ const useCalendar = <TDate = unknown>({
   const utils = useRef(dateUtils);
   const [date, setDate] = useState(defaultDate || dateUtils.date());
 
-  const calendar = useMemo(() => {
+  return useMemo(() => {
     const _ = utils.current;
     const first = _.startOfWeek(_.startOfMonth(date));
     const last = _.endOfWeek(_.endOfMonth(date));
@@ -71,8 +71,6 @@ const useCalendar = <TDate = unknown>({
       navigateNext: () => setDate(_.addMonths(date, 1)),
     };
   }, [date]);
-
-  return calendar;
 };
 
 export default useCalendar;
