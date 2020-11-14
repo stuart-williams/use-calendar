@@ -2,10 +2,13 @@
   "name": "use-cal",
   "version": "0.0.3",
   "description": "Simple calendar logic in a React hook",
-  "main": "dist/use-calendar.js",
-  "types": "dist/use-calendar.d.ts",
+  "main": "lib/use-calendar.js",
+  "types": "lib/use-calendar.d.ts",
+  "module": "esm/use-calendar.js",
+  "sideEffects": false,
   "files": [
-    "dist"
+    "lib",
+    "esm"
   ],
   "author": "Stuart Williams",
   "license": "MIT",
@@ -21,8 +24,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "prebuild:lib": "rm -rf dist",
-    "build:lib": "tsc lib/use-calendar.ts -d --outDir dist",
+    "build:lib": "tsc src/use-calendar.ts --declaration --outDir lib",
+    "build:esm": "tsc src/use-calendar.ts --module esnext --moduleResolution node --outDir esm",
     "postversion": "git push && git push --tags"
   },
   "dependencies": {

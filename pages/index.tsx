@@ -13,10 +13,10 @@ import isValid from "date-fns/isValid";
 import enGB from "date-fns/locale/en-GB";
 import enUS from "date-fns/locale/en-US";
 import es from "date-fns/locale/es";
-import useCalendar from "lib/use-calendar";
 import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import React from "react";
+import useCalendar from "src/use-calendar";
 
 const locales = {
   "en-GB": enGB,

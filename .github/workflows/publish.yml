@@ -17,6 +17,7 @@ jobs:
       - run: npm ci
       # - run: npm test
       - run: npm run build:lib
+      - run: npm run build:esm
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
