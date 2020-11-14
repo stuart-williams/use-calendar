@@ -1,5 +1,5 @@
 import { IUtils } from "@date-io/core/IUtils";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 export interface Month {
   month: string;
@@ -33,39 +33,44 @@ export interface CalendarOptions<TDate> {
 }
 
 const useCalendar = <TDate = unknown>({
-  dateUtils: d,
+  dateUtils,
   defaultDate,
 }: CalendarOptions<TDate>): Calendar<TDate> => {
-  const [date, setDate] = useState(defaultDate || d.date());
-  const first = d.startOfWeek(d.startOfMonth(date));
-  const last = d.endOfWeek(d.endOfMonth(date));
-  const days: Day<TDate>[] = [];
+  const [date, setDate] = useState(defaultDate || dateUtils.date());
 
-  let curr = first;
-  while (d.isBefore(curr, last)) {
-    days.push({
-      date: curr,
-      dayOfMonth: d.format(curr, "dayOfMonth").padStart(2, "0"),
-      isOutsideMonth: !d.isSameMonth(date, curr),
-      isToday: d.isSameDay(curr, d.date()),
-    });
-    curr = d.addDays(curr, 1);
-  }
+  const calendar = useMemo(() => {
+    const first = dateUtils.startOfWeek(dateUtils.startOfMonth(date));
+    const last = dateUtils.endOfWeek(dateUtils.endOfMonth(date));
+    const days: Day<TDate>[] = [];
 
-  return {
-    date,
-    month: {
-      month: d.format(date, "month"),
-      monthAndYear: d.format(date, "monthAndYear"),
-    },
-    weekdays: d.getWeekArray(date)[0].map((date) => ({
-      weekday: d.format(date, "weekday"),
-      weekdayShort: d.format(date, "weekdayShort"),
-    })),
-    days,
-    navigatePrev: () => setDate(d.addMonths(date, -1)),
-    navigateNext: () => setDate(d.addMonths(date, 1)),
-  };
+    let curr = first;
+    while (dateUtils.isBefore(curr, last)) {
+      days.push({
+        date: curr,
+        dayOfMonth: dateUtils.format(curr, "dayOfMonth").padStart(2, "0"),
+        isOutsideMonth: !dateUtils.isSameMonth(date, curr),
+        isToday: dateUtils.isSameDay(curr, dateUtils.date()),
+      });
+      curr = dateUtils.addDays(curr, 1);
+    }
+
+    return {
+      date,
+      month: {
+        month: dateUtils.format(date, "month"),
+        monthAndYear: dateUtils.format(date, "monthAndYear"),
+      },
+      weekdays: dateUtils.getWeekArray(date)[0].map((date) => ({
+        weekday: dateUtils.format(date, "weekday"),
+        weekdayShort: dateUtils.format(date, "weekdayShort"),
+      })),
+      days,
+      navigatePrev: () => setDate(dateUtils.addMonths(date, -1)),
+      navigateNext: () => setDate(dateUtils.addMonths(date, 1)),
+    };
+  }, [date]);
+
+  return calendar;
 };
 
 export default useCalendar;

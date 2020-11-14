@@ -35,13 +35,13 @@ const Calendar: NextPage<Props> = ({ defaultDate }) => {
 
   const handlePrevClick = () => {
     const d = format(addMonths(date, -1), "yyyy-MM");
-    Router.replace(`?d=${d}`);
+    Router.replace(`?d=${d}`, undefined, { shallow: true });
     navigatePrev();
   };
 
   const handleNextClick = () => {
     const d = format(addMonths(date, 1), "yyyy-MM");
-    Router.replace(`?d=${d}`);
+    Router.replace(`?d=${d}`, undefined, { shallow: true });
     navigateNext();
   };
 
