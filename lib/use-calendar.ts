@@ -1,5 +1,5 @@
 import { IUtils } from "@date-io/core/IUtils";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 
 export interface Month {
   month: string;
@@ -36,37 +36,39 @@ const useCalendar = <TDate = unknown>({
   dateUtils,
   defaultDate,
 }: CalendarOptions<TDate>): Calendar<TDate> => {
+  const utils = useRef(dateUtils);
   const [date, setDate] = useState(defaultDate || dateUtils.date());
 
   const calendar = useMemo(() => {
-    const first = dateUtils.startOfWeek(dateUtils.startOfMonth(date));
-    const last = dateUtils.endOfWeek(dateUtils.endOfMonth(date));
+    const _ = utils.current;
+    const first = _.startOfWeek(_.startOfMonth(date));
+    const last = _.endOfWeek(_.endOfMonth(date));
     const days: Day<TDate>[] = [];
 
     let curr = first;
-    while (dateUtils.isBefore(curr, last)) {
+    while (_.isBefore(curr, last)) {
       days.push({
         date: curr,
-        dayOfMonth: dateUtils.format(curr, "dayOfMonth").padStart(2, "0"),
-        isOutsideMonth: !dateUtils.isSameMonth(date, curr),
-        isToday: dateUtils.isSameDay(curr, dateUtils.date()),
+        dayOfMonth: _.format(curr, "dayOfMonth").padStart(2, "0"),
+        isOutsideMonth: !_.isSameMonth(date, curr),
+        isToday: _.isSameDay(curr, _.date()),
       });
-      curr = dateUtils.addDays(curr, 1);
+      curr = _.addDays(curr, 1);
     }
 
     return {
       date,
       month: {
-        month: dateUtils.format(date, "month"),
-        monthAndYear: dateUtils.format(date, "monthAndYear"),
+        month: _.format(date, "month"),
+        monthAndYear: _.format(date, "monthAndYear"),
       },
-      weekdays: dateUtils.getWeekArray(date)[0].map((date) => ({
-        weekday: dateUtils.format(date, "weekday"),
-        weekdayShort: dateUtils.format(date, "weekdayShort"),
+      weekdays: _.getWeekArray(date)[0].map((date) => ({
+        weekday: _.format(date, "weekday"),
+        weekdayShort: _.format(date, "weekdayShort"),
       })),
       days,
-      navigatePrev: () => setDate(dateUtils.addMonths(date, -1)),
-      navigateNext: () => setDate(dateUtils.addMonths(date, 1)),
+      navigatePrev: () => setDate(_.addMonths(date, -1)),
+      navigateNext: () => setDate(_.addMonths(date, 1)),
     };
   }, [date]);
 
