@@ -38,4 +38,4 @@ const { date, month, weekdays, days, navigatePrev, navigateNext } = useCalendar<
 });
 ```
 
-See [https://github.com/stuart-williams/use-calendar/blob/main/pages/index.tsx](example) for full usage.
+See [example](https://github.com/stuart-williams/use-calendar/blob/main/pages/index.tsx) for full usage.
