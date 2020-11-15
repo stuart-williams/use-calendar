@@ -1,5 +1,7 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import {
+  Box,
+  Button,
   Container,
   Flex,
   IconButton,
@@ -7,8 +9,10 @@ import {
   Text,
 } from "@chakra-ui/react";
 import DateFnsAdapter from "@date-io/date-fns";
+import addDays from "date-fns/addDays";
 import addMonths from "date-fns/addMonths";
 import format from "date-fns/format";
+import isSameDay from "date-fns/isSameDay";
 import isValid from "date-fns/isValid";
 import enGB from "date-fns/locale/en-GB";
 import enUS from "date-fns/locale/en-US";
@@ -23,6 +27,21 @@ const locales = {
   "en-US": enUS,
   es,
 };
+
+const events = [
+  {
+    title: "Today",
+    start: new Date(),
+  },
+  {
+    title: "Today",
+    start: new Date(),
+  },
+  {
+    title: "Tomorrow",
+    start: addDays(new Date(), 1),
+  },
+];
 
 interface Props {
   d: string;
@@ -48,62 +67,69 @@ const Calendar: NextPage<Props> = ({ d }) => {
   };
 
   return (
-    <Container maxW="lg" py={4}>
-      <Flex alignItems="center" justifyContent="center" py={4}>
-        <IconButton
-          aria-label="Prev"
-          icon={<ChevronLeftIcon boxSize={8} />}
-          onClick={handlePrevClick}
-        />
-        <Text
-          fontWeight="bold"
-          mx={4}
-          width="200px"
-          textAlign="center"
-          textTransform="uppercase"
-        >
-          {calendar.month.monthAndYear}
-        </Text>
-        <IconButton
-          aria-label="Next"
-          icon={<ChevronRightIcon boxSize={8} />}
-          onClick={handleNextClick}
-        />
-      </Flex>
-      <SimpleGrid
-        columns={7}
-        borderTopWidth="1px"
-        borderBottomWidth="1px"
-        borderRightWidth="1px"
-      >
-        {calendar.weekdays.map(({ weekdayShort }, i) => (
-          <Flex key={i} justifyContent="center" p={1} borderLeftWidth="1px">
-            <Text fontSize="sm" fontWeight="bold" textTransform="uppercase">
-              {weekdayShort}
-            </Text>
-          </Flex>
-        ))}
-        {calendar.days.map(({ dayOfMonth, isOutsideMonth, isToday }, i) => (
-          <Flex
-            key={i}
-            position="relative"
-            minHeight="100px"
-            borderLeftWidth="1px"
-            borderTopWidth="1px"
-            bg={isOutsideMonth ? "gray.100" : "white"}
+    <Container maxW="lg" py={8}>
+      <Box bg="white" overflow="hidden" borderRadius="lg" borderWidth="1px">
+        <Flex alignItems="center" justifyContent="center" py={4}>
+          <IconButton
+            aria-label="Prev"
+            icon={<ChevronLeftIcon boxSize={8} />}
+            onClick={handlePrevClick}
+          />
+          <Text
+            width="200px"
+            fontWeight="bold"
+            textAlign="center"
+            textTransform="uppercase"
           >
-            <Text
-              position="absolute"
-              fontSize="sm"
-              fontWeight={isToday ? "bold" : "normal"}
-              top={2}
-              right={2}
+            {calendar.month.monthAndYear}
+          </Text>
+          <IconButton
+            aria-label="Next"
+            icon={<ChevronRightIcon boxSize={8} />}
+            onClick={handleNextClick}
+          />
+        </Flex>
+        <SimpleGrid columns={7}>
+          {calendar.weekdays.map(({ weekdayShort }, i) => (
+            <Flex key={i} justifyContent="center" p={2}>
+              <Text fontSize="sm" fontWeight="bold" textTransform="uppercase">
+                {weekdayShort}
+              </Text>
+            </Flex>
+          ))}
+          {calendar.days.map((day, i) => (
+            <Flex
+              key={i}
+              p={1}
+              minHeight="100px"
+              flexDirection="column"
+              bg={day.isOutsideMonth ? "gray.50" : "white"}
+              borderColor="gray.200"
+              borderTopWidth="1px"
+              borderRightWidth={(i + 1) % 7 === 0 ? "0px" : "1px"}
             >
-              {dayOfMonth}
-            </Text>
-          </Flex>
-        ))}
-      </SimpleGrid>
+              <Text
+                flex={1}
+                width="100%"
+                fontSize="sm"
+                textAlign="right"
+                fontWeight={day.isToday ? "bold" : "normal"}
+              >
+                {day.dayOfMonth}
+              </Text>
+              {events
+                .filter((ev) => isSameDay(ev.start, day.date))
+                .map((ev) => (
+                  <Box>
+                    <Button size="xs" colorScheme="blue" isFullWidth>
+                      {ev.title}
+                    </Button>
+                  </Box>
+                ))}
+            </Flex>
+          ))}
+        </SimpleGrid>
+      </Box>
     </Container>
   );
 };
