@@ -1,7 +1,13 @@
 {
   "name": "use-cal",
   "version": "0.0.4",
-  "description": "Simple calendar logic in a React hook",
+  "description": "Simple calendar logic for React",
+  "keywords": [
+    "react",
+    "hooks",
+    "use-calendar",
+    "calendar"
+  ],
   "main": "lib/use-calendar.js",
   "types": "lib/use-calendar.d.ts",
   "module": "esm/use-calendar.js",
