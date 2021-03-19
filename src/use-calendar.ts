@@ -1,4 +1,4 @@
-import type { IUtils } from "@date-io/core/IUtils";
+import { IUtils } from "@date-io/core/IUtils";
 import { useMemo, useRef, useState } from "react";
 
 export interface Month {
