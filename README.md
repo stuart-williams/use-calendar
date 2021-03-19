@@ -1,6 +1,6 @@
 # `useCalendar`
 
-[![NPM](https://www.npmjs.com/package/use-cal)](https://img.shields.io/npm/v/use-cal)
+[![NPM](https://img.shields.io/npm/v/use-cal)](https://www.npmjs.com/package/use-cal)
 [![Publish](https://github.com/stuart-williams/use-calendar/actions/workflows/publish.yml/badge.svg)](https://github.com/stuart-williams/use-calendar/actions/workflows/publish.yml)
 [![Bundlephobia](https://badgen.net/bundlephobia/minzip/use-cal)](https://bundlephobia.com/result?p=use-cal)
 
