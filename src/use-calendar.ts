@@ -48,7 +48,7 @@ const useCalendar = <TDate = unknown>({
     let curr = first;
     while (utils.isBefore(curr, last)) {
       days.push({
-        date: curr,
+        date: utils.startOfDay(curr),
         dayOfMonth: utils.format(curr, "dayOfMonth"),
         isOutsideMonth: !utils.isSameMonth(date, curr),
         isToday: utils.isSameDay(curr, utils.date() as TDate),
@@ -57,7 +57,7 @@ const useCalendar = <TDate = unknown>({
     }
 
     return {
-      date,
+      date: utils.startOfDay(date),
       month: {
         month: utils.format(date, "month"),
         monthAndYear: utils.format(date, "monthAndYear"),

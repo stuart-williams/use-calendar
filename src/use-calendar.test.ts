@@ -9,7 +9,7 @@ describe("useCalendar", () => {
   let dateUtils: DateFnsAdapter;
 
   beforeEach(() => {
-    MockDate.set("2000-01-01");
+    MockDate.set("2000-01-01:09:51");
 
     dateUtils = new DateFnsAdapter({ locale });
   });
@@ -25,7 +25,7 @@ describe("useCalendar", () => {
       })
     );
 
-    expect(result.current.date).toEqual(new Date());
+    expect(result.current.date).toEqual(new Date("2000-01-01:00:00"));
 
     expect(result.current.month).toEqual({
       month: "January",
@@ -49,11 +49,11 @@ describe("useCalendar", () => {
     const { result } = renderHook(() =>
       useCalendar({
         dateUtils,
-        defaultDate: new Date("2050-12-25"),
+        defaultDate: new Date("2050-12-25:09:51"),
       })
     );
 
-    expect(result.current.date).toEqual(new Date("2050-12-25"));
+    expect(result.current.date).toEqual(new Date("2050-12-25:00:00"));
 
     expect(result.current.month).toEqual({
       month: "December",
@@ -74,14 +74,14 @@ describe("useCalendar", () => {
       result.current.navigateNext();
     });
 
-    expect(result.current.date).toEqual(new Date("2000-02-01"));
+    expect(result.current.date).toEqual(new Date("2000-02-01:00:00"));
     expect(result.current.days).toMatchSnapshot();
 
     act(() => {
       result.current.navigateNext();
     });
 
-    expect(result.current.date).toEqual(new Date("2000-03-01"));
+    expect(result.current.date).toEqual(new Date("2000-03-01:00:00"));
     expect(result.current.days).toMatchSnapshot();
   });
 
@@ -96,14 +96,14 @@ describe("useCalendar", () => {
       result.current.navigatePrev();
     });
 
-    expect(result.current.date).toEqual(new Date("1999-12-01"));
+    expect(result.current.date).toEqual(new Date("1999-12-01:00:00"));
     expect(result.current.days).toMatchSnapshot();
 
     act(() => {
       result.current.navigatePrev();
     });
 
-    expect(result.current.date).toEqual(new Date("1999-11-01"));
+    expect(result.current.date).toEqual(new Date("1999-11-01:00:00"));
     expect(result.current.days).toMatchSnapshot();
   });
 });
