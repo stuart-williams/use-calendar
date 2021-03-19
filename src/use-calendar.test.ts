@@ -1,5 +1,5 @@
 import DateFnsAdapter from "@date-io/date-fns";
-import { renderHook } from "@testing-library/react-hooks";
+import { act, renderHook } from "@testing-library/react-hooks";
 import locale from "date-fns/locale/en-GB";
 import MockDate from "mockdate";
 
@@ -25,16 +25,14 @@ describe("useCalendar", () => {
       })
     );
 
-    const { date, month, weekdays, days } = result.current;
+    expect(result.current.date).toEqual(new Date());
 
-    expect(date).toEqual(new Date());
-
-    expect(month).toEqual({
+    expect(result.current.month).toEqual({
       month: "January",
       monthAndYear: "January 2000",
     });
 
-    expect(weekdays).toEqual([
+    expect(result.current.weekdays).toEqual([
       { weekday: "Monday", weekdayShort: "Mon" },
       { weekday: "Tuesday", weekdayShort: "Tue" },
       { weekday: "Wednesday", weekdayShort: "Wed" },
@@ -44,26 +42,68 @@ describe("useCalendar", () => {
       { weekday: "Sunday", weekdayShort: "Sun" },
     ]);
 
-    expect(days).toMatchSnapshot();
+    expect(result.current.days).toMatchSnapshot();
   });
 
   it("should create calendar starting at date", () => {
     const { result } = renderHook(() =>
       useCalendar({
         dateUtils,
-        defaultDate: new Date("2000-02-01"),
+        defaultDate: new Date("2050-12-25"),
       })
     );
 
-    const { date, month, days } = result.current;
+    expect(result.current.date).toEqual(new Date("2050-12-25"));
 
-    expect(date).toEqual(new Date("2000-02-01"));
-
-    expect(month).toEqual({
-      month: "February",
-      monthAndYear: "February 2000",
+    expect(result.current.month).toEqual({
+      month: "December",
+      monthAndYear: "December 2050",
     });
 
-    expect(days).toMatchSnapshot();
+    expect(result.current.days).toMatchSnapshot();
+  });
+
+  it("should navigate into the future", () => {
+    const { result } = renderHook(() =>
+      useCalendar({
+        dateUtils,
+      })
+    );
+
+    act(() => {
+      result.current.navigateNext();
+    });
+
+    expect(result.current.date).toEqual(new Date("2000-02-01"));
+    expect(result.current.days).toMatchSnapshot();
+
+    act(() => {
+      result.current.navigateNext();
+    });
+
+    expect(result.current.date).toEqual(new Date("2000-03-01"));
+    expect(result.current.days).toMatchSnapshot();
+  });
+
+  it("should navigate into the past", () => {
+    const { result } = renderHook(() =>
+      useCalendar({
+        dateUtils,
+      })
+    );
+
+    act(() => {
+      result.current.navigatePrev();
+    });
+
+    expect(result.current.date).toEqual(new Date("1999-12-01"));
+    expect(result.current.days).toMatchSnapshot();
+
+    act(() => {
+      result.current.navigatePrev();
+    });
+
+    expect(result.current.date).toEqual(new Date("1999-11-01"));
+    expect(result.current.days).toMatchSnapshot();
   });
 });
