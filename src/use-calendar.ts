@@ -37,7 +37,7 @@ const useCalendar = <TDate = unknown>({
   defaultDate,
 }: CalendarOptions<TDate>): Calendar<TDate> => {
   const utilsRef = useRef(dateUtils);
-  const [date, setDate] = useState(defaultDate || dateUtils.date());
+  const [date, setDate] = useState(defaultDate || (dateUtils.date() as TDate));
 
   return useMemo(() => {
     const utils = utilsRef.current;
@@ -51,7 +51,7 @@ const useCalendar = <TDate = unknown>({
         date: curr,
         dayOfMonth: utils.format(curr, "dayOfMonth"),
         isOutsideMonth: !utils.isSameMonth(date, curr),
-        isToday: utils.isSameDay(curr, utils.date()),
+        isToday: utils.isSameDay(curr, utils.date() as TDate),
       });
       curr = utils.addDays(curr, 1);
     }
