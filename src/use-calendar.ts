@@ -36,39 +36,39 @@ const useCalendar = <TDate = unknown>({
   dateUtils,
   defaultDate,
 }: CalendarOptions<TDate>): Calendar<TDate> => {
-  const utils = useRef(dateUtils);
+  const utilsRef = useRef(dateUtils);
   const [date, setDate] = useState(defaultDate || dateUtils.date());
 
   return useMemo(() => {
-    const _ = utils.current;
-    const first = _.startOfWeek(_.startOfMonth(date));
-    const last = _.endOfWeek(_.endOfMonth(date));
+    const utils = utilsRef.current;
+    const first = utils.startOfWeek(utils.startOfMonth(date));
+    const last = utils.endOfWeek(utils.endOfMonth(date));
     const days: Day<TDate>[] = [];
 
     let curr = first;
-    while (_.isBefore(curr, last)) {
+    while (utils.isBefore(curr, last)) {
       days.push({
         date: curr,
-        dayOfMonth: _.format(curr, "dayOfMonth"),
-        isOutsideMonth: !_.isSameMonth(date, curr),
-        isToday: _.isSameDay(curr, _.date()),
+        dayOfMonth: utils.format(curr, "dayOfMonth"),
+        isOutsideMonth: !utils.isSameMonth(date, curr),
+        isToday: utils.isSameDay(curr, utils.date()),
       });
-      curr = _.addDays(curr, 1);
+      curr = utils.addDays(curr, 1);
     }
 
     return {
       date,
       month: {
-        month: _.format(date, "month"),
-        monthAndYear: _.format(date, "monthAndYear"),
+        month: utils.format(date, "month"),
+        monthAndYear: utils.format(date, "monthAndYear"),
       },
-      weekdays: _.getWeekArray(date)[0].map((date) => ({
-        weekday: _.format(date, "weekday"),
-        weekdayShort: _.format(date, "weekdayShort"),
+      weekdays: utils.getWeekArray(date)[0].map((d) => ({
+        weekday: utils.format(d, "weekday"),
+        weekdayShort: utils.format(d, "weekdayShort"),
       })),
       days,
-      navigatePrev: () => setDate(_.addMonths(date, -1)),
-      navigateNext: () => setDate(_.addMonths(date, 1)),
+      navigatePrev: () => setDate(utils.addMonths(date, -1)),
+      navigateNext: () => setDate(utils.addMonths(date, 1)),
     };
   }, [date]);
 };

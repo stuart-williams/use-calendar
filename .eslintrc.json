@@ -1,11 +1,10 @@
 {
-  "root": true,
-  "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint"],
-  "extends": [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:react-hooks/recommended"
-  ]
+  "extends": ["airbnb-typescript-prettier"],
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".ts", ".d.ts"]
+      }
+    }
+  }
 }

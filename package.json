@@ -27,36 +27,28 @@
   },
   "homepage": "https://github.com/stuart-williams/use-calendar#readme",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "lint": "eslint \"src/**/*.ts\"",
     "build:lib": "tsc src/use-calendar.ts --declaration --outDir lib",
     "build:esm": "tsc src/use-calendar.ts --module esnext --moduleResolution node --outDir esm",
     "postversion": "git push && git push --tags"
   },
   "dependencies": {
-    "@date-io/core": "^2.10.6"
+    "@date-io/core": "^2.10.7"
   },
   "peerDependencies": {
     "react": ">= 16.3",
     "react-dom": ">= 16.3"
   },
   "devDependencies": {
-    "@chakra-ui/icons": "^1.0.0",
-    "@chakra-ui/react": "^1.0.0",
-    "@date-io/date-fns": "^2.10.6",
-    "@emotion/react": "^11.0.0",
-    "@emotion/styled": "^11.0.0",
-    "@types/node": "^14.14.7",
-    "@types/react": "^16.9.56",
-    "@typescript-eslint/eslint-plugin": "^4.2.0",
-    "@typescript-eslint/parser": "^4.2.0",
-    "date-fns": "^2.16.1",
-    "eslint": "^7.9.0",
-    "framer-motion": "^2.9.4",
-    "next": "10.0.1",
+    "@date-io/date-fns": "^2.10.8",
+    "@types/node": "^14.14.35",
+    "@types/react": "^17.0.3",
+    "date-fns": "^2.19.0",
+    "eslint": "^7.22.0",
+    "eslint-config-airbnb-typescript-prettier": "^4.2.0",
+    "prettier": "^2.2.1",
     "react": "17.0.1",
     "react-dom": "17.0.1",
-    "typescript": "^4.0.5"
+    "typescript": "^4.2.3"
   }
 }
