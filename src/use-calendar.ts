@@ -1,5 +1,6 @@
-import { IUtils } from "@date-io/core/IUtils";
 import { useMemo, useRef, useState } from "react";
+
+import type { IUtils } from "@date-io/core/IUtils";
 
 export interface Month {
   month: string;
@@ -23,9 +24,10 @@ export interface Calendar<TDate> {
   readonly month: Month;
   readonly weekdays: Weekday[];
   readonly days: Day<TDate>[];
-  readonly navigateToday: () => void;
   readonly navigatePrev: () => void;
   readonly navigateNext: () => void;
+  readonly navigateToday: () => void;
+  readonly navigateToDate: (date: TDate) => void;
 }
 
 export interface CalendarOptions<TDate> {
@@ -70,9 +72,10 @@ const useCalendar = <TDate = unknown>({
         weekdayShort: utils.format(d, "weekdayShort"),
       })),
       days,
-      navigateToday: () => setDate(utils.startOfDay(utils.date() as TDate)),
       navigatePrev: () => setDate(utils.addMonths(date, -1)),
       navigateNext: () => setDate(utils.addMonths(date, 1)),
+      navigateToday: () => setDate(utils.startOfDay(utils.date() as TDate)),
+      navigateToDate: (d: TDate) => setDate(utils.startOfDay(d)),
     };
   }, [date]);
 };
