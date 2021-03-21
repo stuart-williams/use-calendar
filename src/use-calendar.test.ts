@@ -106,4 +106,21 @@ describe("useCalendar", () => {
     expect(result.current.date).toEqual(new Date("1999-11-01:00:00"));
     expect(result.current.days).toMatchSnapshot();
   });
+
+  it("should navigate to today", () => {
+    const { result } = renderHook(() =>
+      useCalendar({
+        dateUtils,
+        defaultDate: new Date("2050-12-25:09:51"),
+      })
+    );
+
+    expect(result.current.date).toEqual(new Date("2050-12-25:00:00"));
+
+    act(() => {
+      result.current.navigateToday();
+    });
+
+    expect(result.current.date).toEqual(new Date("2000-01-01:00:00"));
+  });
 });
