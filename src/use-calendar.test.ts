@@ -134,7 +134,7 @@ describe("useCalendar", () => {
     expect(result.current.date).toEqual(new Date("2000-01-01:00:00"));
 
     act(() => {
-      result.current.navigateToDate(new Date("2050-12-25:09:51"));
+      result.current.navigateTo(new Date("2050-12-25:09:51"));
     });
 
     expect(result.current.date).toEqual(new Date("2050-12-25:00:00"));

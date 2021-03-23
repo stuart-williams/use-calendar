@@ -24,10 +24,10 @@ export interface Calendar<TDate> {
   readonly month: Month;
   readonly weekdays: Weekday[];
   readonly days: Day<TDate>[];
+  readonly navigateTo: (date: TDate) => void;
   readonly navigatePrev: () => void;
   readonly navigateNext: () => void;
   readonly navigateToday: () => void;
-  readonly navigateToDate: (date: TDate) => void;
 }
 
 export interface CalendarOptions<TDate> {
@@ -72,10 +72,10 @@ const useCalendar = <TDate = unknown>({
         weekdayShort: utils.format(d, "weekdayShort"),
       })),
       days,
+      navigateTo: (d: TDate) => setDate(utils.startOfDay(d)),
       navigatePrev: () => setDate(utils.addMonths(date, -1)),
       navigateNext: () => setDate(utils.addMonths(date, 1)),
       navigateToday: () => setDate(utils.startOfDay(utils.date() as TDate)),
-      navigateToDate: (d: TDate) => setDate(utils.startOfDay(d)),
     };
   }, [date]);
 };
