@@ -33,13 +33,41 @@ describe("useCalendar", () => {
     });
 
     expect(result.current.weekdays).toEqual([
-      { weekday: "Monday", weekdayShort: "Mon" },
-      { weekday: "Tuesday", weekdayShort: "Tue" },
-      { weekday: "Wednesday", weekdayShort: "Wed" },
-      { weekday: "Thursday", weekdayShort: "Thu" },
-      { weekday: "Friday", weekdayShort: "Fri" },
-      { weekday: "Saturday", weekdayShort: "Sat" },
-      { weekday: "Sunday", weekdayShort: "Sun" },
+      {
+        date: new Date("1999-12-27"),
+        weekday: "Monday",
+        weekdayShort: "Mon",
+      },
+      {
+        date: new Date("1999-12-28"),
+        weekday: "Tuesday",
+        weekdayShort: "Tue",
+      },
+      {
+        date: new Date("1999-12-29"),
+        weekday: "Wednesday",
+        weekdayShort: "Wed",
+      },
+      {
+        date: new Date("1999-12-30"),
+        weekday: "Thursday",
+        weekdayShort: "Thu",
+      },
+      {
+        date: new Date("1999-12-31"),
+        weekday: "Friday",
+        weekdayShort: "Fri",
+      },
+      {
+        date: new Date("2000-01-01"),
+        weekday: "Saturday",
+        weekdayShort: "Sat",
+      },
+      {
+        date: new Date("2000-01-02"),
+        weekday: "Sunday",
+        weekdayShort: "Sun",
+      },
     ]);
 
     expect(result.current.days).toMatchSnapshot();

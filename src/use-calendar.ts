@@ -7,7 +7,8 @@ export interface Month {
   monthAndYear: string;
 }
 
-export interface Weekday {
+export interface Weekday<TDate> {
+  date: TDate;
   weekday: string;
   weekdayShort: string;
 }
@@ -22,7 +23,7 @@ export interface Day<TDate> {
 export interface Calendar<TDate> {
   readonly date: TDate;
   readonly month: Month;
-  readonly weekdays: Weekday[];
+  readonly weekdays: Weekday<TDate>[];
   readonly days: Day<TDate>[];
   readonly navigateTo: (date: TDate) => void;
   readonly navigatePrev: () => void;
@@ -68,6 +69,7 @@ const useCalendar = <TDate = unknown>({
         monthAndYear: utils.format(date, "monthAndYear"),
       },
       weekdays: utils.getWeekArray(date)[0].map((d) => ({
+        date: d,
         weekday: utils.format(d, "weekday"),
         weekdayShort: utils.format(d, "weekdayShort"),
       })),
