@@ -59,7 +59,7 @@ const useCalendar = <TDate = unknown>({
         isOutsideMonth: !utils.isSameMonth(date, curr),
         isToday: utils.isSameDay(curr, utils.date() as TDate),
       });
-      curr = utils.addHours(curr, 24);
+      curr = utils.addDays(curr, 1);
     }
 
     return {
