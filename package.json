@@ -28,7 +28,7 @@
   "homepage": "https://github.com/stuart-williams/use-calendar#readme",
   "scripts": {
     "lint": "eslint \"src/**/*.ts\"",
-    "test": "jest",
+    "test": "TZ=UTC jest",
     "build:lib": "tsc src/use-calendar.ts --declaration --outDir lib",
     "build:esm": "tsc src/use-calendar.ts --module esnext --moduleResolution node --outDir esm",
     "postversion": "git push && git push --tags"
